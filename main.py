@@ -1,20 +1,15 @@
-#!/usr/bin/env python3
 import sys
 from commands import add, list_notes, delete
 
-
 ALIASES = {
     "add": "add",
-    "a": "add",
     "ad": "add",
+    "a": "add",
     "addd": "add",
 
     "list": "list",
     "ls": "list",
     "l": "list",
-    "li": "list",
-    "lis": "list",
-    "listt": "list",
 
     "delete": "delete",
     "del": "delete",
@@ -23,13 +18,12 @@ ALIASES = {
 
 def help_menu():
     print("""
-note <command> [args]
+note <command>
 
 Commands:
-  add / a / ad / addd <text>
-  list / ls / l
-  delete / del / d <number>
-  help
+  add / a / ad / addd   <text>
+  list / l / ls
+  delete / del / d      <number>
 """)
 
 def main():
@@ -40,10 +34,6 @@ def main():
     cmd = sys.argv[1]
     args = sys.argv[2:]
 
-    if cmd == "help":
-        help_menu()
-        return
-
     cmd = ALIASES.get(cmd, cmd)
 
     if cmd == "add":
@@ -52,6 +42,8 @@ def main():
         list_notes()
     elif cmd == "delete":
         delete(args)
+    elif cmd == "help":
+        help_menu()
     else:
         print("Unknown command. Use: note help")
 
