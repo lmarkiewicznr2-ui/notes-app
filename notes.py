@@ -11,5 +11,8 @@ if command == "add":
         file.write(note + "\n")
 elif command == "list":
     print("listing notes")
+    with open("notes.txt", "r") as file:
+        notes = file.read()
+        print(notes)
 else:
     print("unknown command")
