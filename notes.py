@@ -11,7 +11,7 @@ if command == "add":
     if len(sys.argv) < 3:
         print(usage)
         sys.exit()
-    note = sys.argv[2]
+    note = " ".join(sys.argv[2:])
     try:
         with open("notes.txt", "r") as file:
             lines = file.read().splitlines()
