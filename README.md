@@ -13,9 +13,11 @@ A simple terminal-based notes application written in Python.
 ### Add a note
 ```bash
 python notes.py add "hello world"
+```
 ### List notes
+```bash
 python notes.py list
-
+```
 ## How it works
 
 Notes are stored line-by-line in a notes.txt file in the same directory.
