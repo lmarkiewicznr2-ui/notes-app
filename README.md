@@ -11,6 +11,7 @@ A simple terminal-based notes application written in Python.
 ## How to use
 
 ### Add a note
+```bash
 python notes.py add "hello world"
 ### List notes
 python notes.py list
