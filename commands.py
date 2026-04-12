@@ -23,21 +23,38 @@ def list_notes():
 
 def delete(args):
     if not args:
-        print("Usage: note del <number>")
-        return
-
-    try:
-        index = int(args[0])
-    except ValueError:
-        print("Invalid number")
+        print("Usage: note del <num... or text...>")
         return
 
     notes = read_notes()
 
-    if index < 1 or index > len(notes):
-        print("Invalid number")
+    # CASE 1: all numbers → delete by index
+    if all(a.isdigit() for a in args):
+        indices = sorted(set(int(a) for a in args), reverse=True)
+
+        removed = 0
+
+        for i in indices:
+            if 1 <= i <= len(notes):
+                notes.pop(i - 1)
+                removed += 1
+
+        write_notes(notes)
+        print(f"Deleted {removed} note(s) by index")
         return
 
-    notes.pop(index - 1)
-    write_notes(notes)
-    print("Deleted note")
+    # CASE 2: word / text delete
+    query = " ".join(args).lower()
+
+    new_notes = []
+    removed = 0
+
+    for n in notes:
+        if query in n.lower():
+            removed += 1
+            continue
+        new_notes.append(n)
+
+    write_notes(new_notes)
+
+    print(f"Deleted {removed} note(s) containing '{query}'")
