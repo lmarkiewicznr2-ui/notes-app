@@ -27,7 +27,27 @@ elif command == "list":
         with open("notes.txt", "r") as file:
             print(file.read())
     except FileNotFoundError:
-        print("No notes yet")
+        print("No notes yet!")
+elif command == "delete":
+    if len(sys.argv) < 3:
+        print("Usage: python notes.py delete <number>")
+        sys.exit()
+
+    try:
+        with open("notes.txt", "r") as file:
+            index = int(sys.argv[2])
+            lines = file.read().splitlines()
+            if index < 1 or index > len(lines): 
+                print("Invalid note number")
+                sys.exit()
+            lines.pop(index - 1)
+            with open("notes.txt","w") as file:
+                for i, n in enumerate(lines, start=1):
+                    file.write(f"{i}. {n}\n")
+    except FileNotFoundError:
+        print("No notes yet!")
+        sys.exit()
+
 
 else:
     print("Unknown command. Use: add or list")
