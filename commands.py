@@ -1,21 +1,31 @@
 from storage import read_notes, write_notes
 import sys
+import os
 
 def add(args):
-    if not args:
-        print("Usage: note add <text>")
+    if len(args) < 2:
+        print("Usage: note add <list> <text>")
         return
 
-    notes = read_notes()
-    notes.append(" ".join(args))
-    write_notes(notes)
-    print(f"Added: {notes[-1]}")
+    name = args[0]
+    text = " ".join(args[1:])
 
-def list_notes():
-    notes = read_notes()
+    notes = read_notes(name)
+    notes.append(text)
+    write_notes(name, notes)
+
+    print(f"[{name}] Added: {text}")
+
+def list_notes(args):
+    if not args:
+        print("Usage: note list <list>")
+        return
+
+    name = args[0]
+    notes = read_notes(name)
 
     if not notes:
-        print("No notes yet!")
+        print(f"[{name}] No notes yet!")
         return
 
     for i, n in enumerate(notes, start=1):
@@ -40,7 +50,7 @@ def delete(args):
                 removed += 1
 
         write_notes(notes)
-        print(f"Deleted {removed} note(s) by index")
+        print(f"[{name}] Deleted {removed} note(s) by index")
         return
 
     # CASE 2: word / text delete
@@ -58,3 +68,48 @@ def delete(args):
     write_notes(new_notes)
 
     print(f"Deleted {removed} note(s) containing '{query}'")
+
+
+
+
+def list_lists():
+    base_dir = "notes"
+
+    if not os.path.exists(base_dir):
+        print("No lists yet!")
+        return
+
+    files = os.listdir(base_dir)
+
+    if not files:
+        print("No lists yet!")
+        return
+
+    print("Lists:")
+
+    for f in files:
+        if f.endswith(".json"):
+            name = f[:-5]  # remove .json
+            print(f"- {name}")
+
+
+def remove_list(args):
+    if not args:
+        print("Usage: note remove-list <list>")
+        return
+
+    name = args[0]
+    file = os.path.join("notes", f"{name}.json")
+
+    if not os.path.exists(file):
+        print(f"[{name}] List does not exist")
+        return
+
+    confirm = input(f"Delete list '{name}'? (y/n): ").lower()
+
+    if confirm != "y":
+        print("Cancelled")
+        return
+
+    os.remove(file)
+    print(f"[{name}] List deleted")

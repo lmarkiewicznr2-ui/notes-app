@@ -44,6 +44,10 @@ def main():
         delete(args)
     elif cmd == "help":
         help_menu()
+    elif cmd in ["lists", "lslists", "lsl", "ll"]:
+        list_lists()
+    elif cmd in ["remove-list", "rmlist", "rml", "rl"]:
+        remove_list(args)
     else:
         print("Unknown command. Use: note help")
 
