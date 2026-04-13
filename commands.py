@@ -83,3 +83,41 @@ def delete(args):
     write_notes(name, new_notes)
 
     print(f"[{name}] Deleted {removed} note(s) containing '{query}'")
+
+
+
+def search(args):
+    if not args:
+        print("Usage: note find <list?> <text>")
+        return
+
+    # detect if list is provided
+    if len(args) >= 2 and not args[0].isdigit():
+        name = args[0]
+        query = " ".join(args[1:])
+        set_current_list(name)
+    else:
+        name = get_current_list()
+        query = " ".join(args)
+
+        if not name:
+            print("No list specified and no default list set")
+            return
+
+    notes = read_notes(name)
+
+    if not notes:
+        print(f"[{name}] No notes found")
+        return
+
+    query_lower = query.lower()
+
+    found = False
+
+    for i, n in enumerate(notes, start=1):
+        if query_lower in n.lower():
+            print(f"{i}. {n}")
+            found = True
+
+    if not found:
+        print(f"[{name}] No matches for '{query}'")

@@ -48,6 +48,8 @@ def main():
         list_lists()
     elif cmd in ["remove-list", "rmlist", "rml", "rl"]:
         remove_list(args)
+    elif cmd in ["find", "search", "f"]:
+        search(args)
     else:
         print("Unknown command. Use: note help")
 
